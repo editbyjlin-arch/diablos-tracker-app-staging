@@ -28,11 +28,10 @@
             padding: 10px 0;
         }
         .header img {
-            max-height: 100px; /* Ensures the main logo is large */
+            max-height: 100px; 
             width: auto;
         }
         .footer img {
-            /* Ensures the devil head is large, matching your desired image */
             max-height: 150px; 
             width: auto; 
             opacity: 0.9;
@@ -180,8 +179,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // ============================================================================
-    // GOOGLE APPS SCRIPT URL - STAGING (New cloned URL)
+    // GOOGLE APPS SCRIPT URL - PRODUCTION
     // ============================================================================
+    // *** FINAL PRODUCTION URL CONFIRMED ***
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzHBzUTjNew_gWrpjs02QJ8-MY_zAECNJYyqwcra9Df2X997ajrze0atXty1oP0op_L/exec"; 
     
     // ============================================================================
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
         statusMessage.textContent = ''; 
         statusMessage.style.visibility = 'hidden'; 
         
-        console.log('Diablos Race Tracker initialized - Final Staging Build');
+        console.log('Diablos Race Tracker initialized - Production Build');
     }
 
     // ============================================================================
