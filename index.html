@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diablos Race Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        #stopwatch-display {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .controls button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #start { background-color: #4CAF50; color: white; }
+        #stop { background-color: #f44336; color: white; }
+        #reset { background-color: #ff9800; color: white; }
+        #saveTime { background-color: #03A9F4; color: white; }
+        #upload { background-color: #8BC34A; color: white; }
+        
+        .controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        #statusMessage {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 1.2em;
+            font-weight: bold;
+            color: #333;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Diablos Race Timer</h2>
+    
+    <div id="stopwatch-display">00:00.000</div>
+    
+    <div class="controls">
+        <button id="start">Start</button>
+        <button id="stop" disabled>Stop</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <div class="input-group">
+        <label for="playerID">Player ID:</label>
+        <input type="text" id="playerID" placeholder="Enter Player ID" required>
+    </div>
+
+    <div class="input-group">
+        <label for="laps">Laps Completed:</label>
+        <input type="number" id="laps" value="1" min="1" required>
+    </div>
+
+    <div class="controls">
+        <button id="saveTime" disabled>Save Time</button>
+        <button id="upload" disabled>Upload Time</button>
+    </div>
+    
+    <div id="statusMessage">Ready.</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ============================================================================
+    // GOOGLE APPS SCRIPT URL - V11 WITH GET REQUEST SUPPORT
+    // ============================================================================
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzOsS7-hpSJMVYwwamrsD1V_iO9FoyXnUne-6veBxLyA9q6WnK5Up-uYNQPTko6C32i/exec";
+    
+    // ============================================================================
+    // GLOBAL TIMER VARIABLES
+    // ============================================================================
+    let startTime;
+    let timerInterval;
+    let currentMs = 0;
+    
+    // ============================================================================
+    // DOM ELEMENT REFERENCES
+    // ============================================================================
+    const stopwatchDisplay = document.getElementById('stopwatch-display');
+    const playerIDInput = document.getElementById('playerID');
+    const lapsInput = document.getElementById('laps');
+    const saveTimeButton = document.getElementById('saveTime');
+    const uploadButton = document.getElementById('upload');
+    const statusMessage = document.getElementById('statusMessage');
+    const startButton = document.getElementById('start');
+    const stopButton = document.getElementById('stop');
+    const resetButton = document.getElementById('reset');
+    
+    // Safety check: Verify all critical elements exist
+    if (!startButton || !stopButton || !resetButton || !stopwatchDisplay) {
+        console.error("CRITICAL ERROR: Essential HTML elements are missing.");
+        document.body.innerHTML = "<div style='color: red; padding: 20px;'>Error: App failed to load. Check element IDs.</div>";
+        return;
+    }
+
+    // ============================================================================
+    // TIME FORMATTING FUNCTION
+    // ============================================================================
+    function formatTime(ms) {
+        if (typeof ms !== 'number' || ms < 0) return "00:00.000";
+        
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        const milliseconds = ms % 1000;
+        
+        const pad = (num) => String(num).padStart(2, '0');
+        const msPad = String(milliseconds).padStart(3, '0');
+
+        return `${pad(minutes)}:${pad(seconds)}.${msPad}`;
+    }
+
+    // ============================================================================
+    // TIMER DISPLAY UPDATE
+    // ============================================================================
+    function updateDisplay() {
+        currentMs = Date.now() - startTime;
+        stopwatchDisplay.textContent = formatTime(currentMs);
+    }
+
+    // ============================================================================
+    // START TIMER
+    // ============================================================================
+    function startTimer() {
+        startTime = Date.now() - currentMs;
+        timerInterval = setInterval(updateDisplay, 1);
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        saveTimeButton.disabled = true;
+        uploadButton.disabled = true;
+        statusMessage.textContent = 'Timer Running...';
+    }
+
+    // ============================================================================
+    // STOP TIMER
+    // ============================================================================
+    function stopTimer() {
+        clearInterval(timerInterval);
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        saveTimeButton.disabled = false;
+        statusMessage.textContent = `Time saved locally: ${formatTime(currentMs)}`;
+    }
+
+    // ============================================================================
+    // RESET TIMER
+    // ============================================================================
+    function resetTimer() {
+        clearInterval(timerInterval);
+        currentMs = 0;
+        stopwatchDisplay.textContent = '00:00.000';
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        saveTimeButton.disabled = true;
+        uploadButton.disabled = true;
+        playerIDInput.value = '';
+        lapsInput.value = '1';
+        statusMessage.textContent = 'Ready.';
+    }
+
+    // ============================================================================
+    // SAVE TIME (ENABLE UPLOAD)
+    // ============================================================================
+    function saveTime() {
+        if (currentMs > 0) {
+            uploadButton.disabled = false;
+            statusMessage.textContent = `Ready to upload time for ${playerIDInput.value}.`;
+        } else {
+            statusMessage.textContent = 'Start the timer first.';
+        }
+    }
+
+    // ============================================================================
+    // UPLOAD TIME - USING GET REQUEST WITH NO-CORS MODE
+    // ============================================================================
+    function uploadTime() {
+        const playerID = playerIDInput.value.trim();
+        const laps = parseInt(lapsInput.value);
+
+        // Validation
+        if (!playerID) {
+            alert("Please enter a PlayerID.");
+            return;
+        }
+
+        if (isNaN(laps) || laps <= 0) {
+            alert("Please enter a valid number of laps.");
+            return;
+        }
+
+        if (currentMs <= 0) {
+            alert("Time must be greater than zero to upload.");
+            return;
+        }
+        
+        // Disable button and show uploading status
+        uploadButton.disabled = true;
+        statusMessage.textContent = 'UPLOADING... please wait.';
+
+        // Prepare data as URL parameters
+        const params = new URLSearchParams({
+            PlayerID: playerID,
+            TimeMs: currentMs,
+            Laps: laps
+        });
+
+        // Use GET request with no-cors to bypass CORS restrictions
+        fetch(`${WEB_APP_URL}?${params.toString()}`, {
+            method: 'GET',
+            mode: 'no-cors'
+        })
+        .then(() => {
+            // no-cors means we can't read the response, but request was sent successfully
+            statusMessage.textContent = `✓ Upload sent for ${playerID}. Check your Google Sheet!`;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+            uploadButton.disabled = false;
+            
+            // Auto-reset message after 5 seconds
+            setTimeout(() => {
+                statusMessage.textContent = 'Ready.';
+                statusMessage.style.backgroundColor = '#eee';
+                statusMessage.style.color = '#333';
+            }, 5000);
+        })
+        .catch(error => {
+            console.error('Upload Error:', error);
+            // Even if there's an error, the request might have succeeded
+            statusMessage.textContent = `Upload attempt completed. Check Google Sheet to verify.`;
+            statusMessage.style.backgroundColor = '#fff3cd';
+            statusMessage.style.color = '#856404';
+            uploadButton.disabled = false;
+        });
+    }
+
+    // ============================================================================
+    // EVENT LISTENERS
+    // ============================================================================
+    startButton.addEventListener('click', startTimer);
+    stopButton.addEventListener('click', stopTimer);
+    resetButton.addEventListener('click', resetTimer);
+    saveTimeButton.addEventListener('click', saveTime);
+    uploadButton.addEventListener('click', uploadTime);
+
+    // ============================================================================
+    // INITIALIZE APP
+    // ============================================================================
+    resetTimer();
+    console.log('Diablos Race Tracker initialized - V11 with GET support');
+    console.log('Web App URL:', WEB_APP_URL);
+});
+</script>
+
+</body>
+</html>
