@@ -15,7 +15,7 @@
             align-items: center;
             justify-content: space-between;
             min-height: 100vh;
-            background-color: #000000; /* Solid Black Background - FIX */
+            background-color: #000000; /* Solid Black Background */
             margin: 0;
             padding: 0;
             color: #ffffff;
@@ -32,7 +32,7 @@
             height: auto;
         }
         .container {
-            background: transparent; /* Transparent container to show black body - FIX */
+            background: transparent; /* Transparent container to show black body */
             padding: 20px;
             border-radius: 10px;
             text-align: center;
@@ -47,9 +47,9 @@
         #stopwatch-display {
             font-size: 3.5em;
             margin-bottom: 20px;
-            color: #bd2027; /* Red text for timer numbers - FIX */
+            color: #bd2027; /* Red text for timer numbers */
             font-weight: bold;
-            background-color: #FFD700; /* Bright Yellow/Gold background - FIX */
+            background-color: #FFD700; /* Bright Yellow/Gold background */
             border: 3px solid #c0952c; /* Gold/Brown Border */
             border-radius: 15px;
             padding: 10px; 
@@ -60,6 +60,7 @@
             flex-wrap: wrap;
             justify-content: center;
             margin: 10px 0;
+            /* FIX FOR BUTTON LAYOUT: Ensures all buttons are in one consistent row flow */
         }
         .controls button {
             padding: 10px 15px;
@@ -89,7 +90,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #bd2027; /* Red text for labels - FIX */
+            color: #bd2027; /* Red text for labels */
             font-size: 1.1em;
             text-transform: uppercase;
         }
@@ -98,7 +99,7 @@
             padding: 10px;
             box-sizing: border-box;
             background-color: #ffffff; /* White input background */
-            border: 3px solid #c0952c; /* Thick Gold/Brown Input Border - FIX */
+            border: 3px solid #c0952c; /* Thick Gold/Brown Input Border */
             border-radius: 8px;
             font-size: 1.1em;
             color: #333333;
@@ -140,9 +141,6 @@
             <button id="start">Start</button>
             <button id="stop" disabled>Stop</button>
             <button id="reset">Reset</button>
-        </div>
-
-        <div class="controls">
             <button id="saveTime" disabled>Guardar</button>
             <button id="upload" disabled>Subir</button>
         </div>
@@ -159,18 +157,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================================================
     // GOOGLE APPS SCRIPT URL - STAGING (New cloned URL)
     // ============================================================================
-    // **This URL points to your NEW, cloned backend.**
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzHBZUTjNew_gWrpjs02QJ8-MY_zAECNJYyvvwcra9Df2X997ajrze0atXty1oP0op_L/exec"; 
     
     // ============================================================================
-    // GLOBAL TIMER VARIABLES (NO CHANGES REQUIRED HERE)
+    // GLOBAL TIMER VARIABLES
     // ============================================================================
     let startTime;
     let timerInterval;
     let currentMs = 0;
     
     // ============================================================================
-    // DOM ELEMENT REFERENCES (NO CHANGES REQUIRED HERE)
+    // DOM ELEMENT REFERENCES
     // ============================================================================
     const stopwatchDisplay = document.getElementById('stopwatch-display');
     const playerIDInput = document.getElementById('playerID');
@@ -189,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // TIME FORMATTING FUNCTION (NO CHANGES REQUIRED HERE)
+    // TIME FORMATTING FUNCTION
     // ============================================================================
     function formatTime(ms) {
         if (typeof ms !== 'number' || ms < 0) return "00:00.000";
@@ -206,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // TIMER DISPLAY UPDATE (NO CHANGES REQUIRED HERE)
+    // TIMER DISPLAY UPDATE
     // ============================================================================
     function updateDisplay() {
         currentMs = Date.now() - startTime;
@@ -214,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // START TIMER (NO CHANGES REQUIRED HERE)
+    // START TIMER
     // ============================================================================
     function startTimer() {
         startTime = Date.now() - currentMs;
@@ -227,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // STOP TIMER (NO CHANGES REQUIRED HERE)
+    // STOP TIMER
     // ============================================================================
     function stopTimer() {
         clearInterval(timerInterval);
@@ -238,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // RESET TIMER (NO CHANGES REQUIRED HERE)
+    // RESET TIMER
     // ============================================================================
     function resetTimer() {
         clearInterval(timerInterval);
@@ -254,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // SAVE TIME (ENABLE UPLOAD) (NO CHANGES REQUIRED HERE)
+    // SAVE TIME (ENABLE UPLOAD)
     // ============================================================================
     function saveTime() {
         if (currentMs > 0) {
@@ -266,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // UPLOAD TIME - USING GET REQUEST WITH NO-CORS MODE (NO CHANGES REQUIRED HERE)
+    // UPLOAD TIME - USING GET REQUEST WITH NO-CORS MODE
     // ============================================================================
     function uploadTime() {
         const playerID = playerIDInput.value.trim();
@@ -322,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // EVENT LISTENERS (NO CHANGES REQUIRED HERE)
+    // EVENT LISTENERS
     // ============================================================================
     startButton.addEventListener('click', startTimer);
     stopButton.addEventListener('click', stopTimer);
@@ -331,10 +328,10 @@ document.addEventListener('DOMContentLoaded', function() {
     uploadButton.addEventListener('click', uploadTime);
 
     // ============================================================================
-    // INITIALIZE APP (NO CHANGES REQUIRED HERE)
+    // INITIALIZE APP
     // ============================================================================
     resetTimer();
-    console.log('Diablos Race Tracker initialized - V12 Final Polish (Corrected)');
+    console.log('Diablos Race Tracker initialized - V12 FINAL CORRECTED');
 });
 </script>
 
