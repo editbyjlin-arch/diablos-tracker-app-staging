@@ -13,13 +13,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Space out header, container, and footer */
+            justify-content: space-between;
             min-height: 100vh;
-            background-color: #000000; /* Black Background */
+            background-color: #000000; /* Solid Black Background - FIX */
             margin: 0;
             padding: 0;
-            color: #ffffff; /* White text for black background */
-            /* Enforce 9:16 feel by limiting max width */
+            color: #ffffff;
             max-width: 450px; 
             margin: 0 auto;
         }
@@ -33,24 +32,28 @@
             height: auto;
         }
         .container {
-            background: #ffffff; /* White Container Background */
+            background: transparent; /* Transparent container to show black body - FIX */
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             text-align: center;
             width: 90%;
             max-width: 400px;
             box-sizing: border-box;
-            margin: auto 0; /* Center container vertically between header and footer */
+            margin: auto 0;
         }
         /* ============================================================================ */
         /* DISPLAY & CONTROLS */
         /* ============================================================================ */
         #stopwatch-display {
-            font-size: 3.5em; /* Slightly larger display */
+            font-size: 3.5em;
             margin-bottom: 20px;
-            color: #333333; /* Dark text on white container */
+            color: #bd2027; /* Red text for timer numbers - FIX */
             font-weight: bold;
+            background-color: #FFD700; /* Bright Yellow/Gold background - FIX */
+            border: 3px solid #c0952c; /* Gold/Brown Border */
+            border-radius: 15px;
+            padding: 10px; 
+            box-shadow: 0 0 10px rgba(192, 149, 44, 0.7);
         }
         .controls {
             display: flex;
@@ -61,16 +64,17 @@
         .controls button {
             padding: 10px 15px;
             margin: 5px;
-            font-size: 1em;
+            font-size: 1.1em;
             cursor: pointer;
-            border: 2px solid #c0952c; /* Gold/Brown Thin Border */
-            border-radius: 8px; /* Slightly rounded */
+            border: 2px solid #c0952c; /* Gold/Brown Thin Border for buttons */
+            border-radius: 8px;
             transition: background-color 0.3s;
             background-color: #bd2027; /* Deep Red Button Color */
             color: #ffffff; /* White Button Font Color */
             font-weight: bold;
-            flex-grow: 1; /* Allow buttons to fill space */
+            flex-grow: 1;
             min-width: 120px;
+            text-transform: uppercase;
         }
         .controls button:disabled {
             opacity: 0.6;
@@ -79,21 +83,26 @@
         }
         .input-group {
             margin: 15px 0;
-            text-align: left;
+            text-align: center;
         }
         .input-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #333333;
+            color: #bd2027; /* Red text for labels - FIX */
+            font-size: 1.1em;
+            text-transform: uppercase;
         }
         .input-group input {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             box-sizing: border-box;
-            border: 1px solid #bd2027; /* Red input border */
-            border-radius: 4px;
-            font-size: 1em;
+            background-color: #ffffff; /* White input background */
+            border: 3px solid #c0952c; /* Thick Gold/Brown Input Border - FIX */
+            border-radius: 8px;
+            font-size: 1.1em;
+            color: #333333;
+            text-align: center;
         }
         #statusMessage {
             margin-top: 20px;
@@ -101,48 +110,48 @@
             border-radius: 5px;
             min-height: 1.2em;
             font-weight: bold;
-            color: #333;
-            background-color: #eeeeee;
+            color: #bd2027; 
+            background-color: #ffffff; 
+            border: 2px solid #c0952c;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="logo LETRAS.png" alt="Diablos Football Logo" style="max-height: 80px; width: auto;">
+        <img src="logo LETRAS.png" alt="Diablos Football Logo" style="max-height: 100px; width: auto;">
     </div>
 
     <div class="container">
-        <h2>Cronómetro de Carreras Diablos</h2>
         
-        <div id="stopwatch-display">00:00.000</div>
+        <div id="stopwatch-display">00:00.000</div> 
         
-        <div class="controls">
-            <button id="start">Iniciar</button>
-            <button id="stop" disabled>Detener</button>
-            <button id="reset">Reiniciar</button>
-        </div>
-
         <div class="input-group">
-            <label for="playerID">ID del Jugador:</label>
+            <label for="playerID">ID del Jugador</label>
             <input type="text" id="playerID" placeholder="Introduce ID del Jugador" required>
         </div>
 
         <div class="input-group">
-            <label for="laps">Vueltas Completadas:</label>
+            <label for="laps">Vueltas Completadas</label>
             <input type="number" id="laps" value="1" min="1" required>
+        </div>
+        
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="stop" disabled>Stop</button>
+            <button id="reset">Reset</button>
         </div>
 
         <div class="controls">
             <button id="saveTime" disabled>Guardar</button>
-            <button id="upload" disabled>Subir Tiempo</button>
+            <button id="upload" disabled>Subir</button>
         </div>
         
         <div id="statusMessage">Listo.</div>
     </div>
 
     <div class="footer">
-        <img src="diablo 3 (1).png" alt="Devil Head Icon" style="max-height: 50px; width: auto; opacity: 0.8;">
+        <img src="diablo 3 (1).png" alt="Devil Head Icon" style="max-height: 80px; width: auto; opacity: 0.9;">
     </div>
 
 <script>
@@ -150,18 +159,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================================================
     // GOOGLE APPS SCRIPT URL - STAGING (New cloned URL)
     // ============================================================================
-    // **This URL has been correctly inserted by Gemini and points to your new, cloned backend.**
+    // **This URL points to your NEW, cloned backend.**
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzHBZUTjNew_gWrpjs02QJ8-MY_zAECNJYyvvwcra9Df2X997ajrze0atXty1oP0op_L/exec"; 
     
     // ============================================================================
-    // GLOBAL TIMER VARIABLES
+    // GLOBAL TIMER VARIABLES (NO CHANGES REQUIRED HERE)
     // ============================================================================
     let startTime;
     let timerInterval;
     let currentMs = 0;
     
     // ============================================================================
-    // DOM ELEMENT REFERENCES
+    // DOM ELEMENT REFERENCES (NO CHANGES REQUIRED HERE)
     // ============================================================================
     const stopwatchDisplay = document.getElementById('stopwatch-display');
     const playerIDInput = document.getElementById('playerID');
@@ -173,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const stopButton = document.getElementById('stop');
     const resetButton = document.getElementById('reset');
     
-    // Safety check: Verify all critical elements exist
     if (!startButton || !stopButton || !resetButton || !stopwatchDisplay) {
         console.error("CRITICAL ERROR: Essential HTML elements are missing.");
         document.body.innerHTML = "<div style='color: red; padding: 20px;'>Error: App failed to load. Check element IDs.</div>";
@@ -181,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // TIME FORMATTING FUNCTION
+    // TIME FORMATTING FUNCTION (NO CHANGES REQUIRED HERE)
     // ============================================================================
     function formatTime(ms) {
         if (typeof ms !== 'number' || ms < 0) return "00:00.000";
@@ -198,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // TIMER DISPLAY UPDATE
+    // TIMER DISPLAY UPDATE (NO CHANGES REQUIRED HERE)
     // ============================================================================
     function updateDisplay() {
         currentMs = Date.now() - startTime;
@@ -206,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // START TIMER
+    // START TIMER (NO CHANGES REQUIRED HERE)
     // ============================================================================
     function startTimer() {
         startTime = Date.now() - currentMs;
@@ -219,11 +227,116 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================================================
-    // STOP TIMER
+    // STOP TIMER (NO CHANGES REQUIRED HERE)
     // ============================================================================
     function stopTimer() {
         clearInterval(timerInterval);
         startButton.disabled = false;
         stopButton.disabled = true;
         saveTimeButton.disabled = false;
-        statusMessage.textContent = `Tiempo guardado localmente
+        statusMessage.textContent = `Tiempo guardado localmente: ${formatTime(currentMs)}`;
+    }
+
+    // ============================================================================
+    // RESET TIMER (NO CHANGES REQUIRED HERE)
+    // ============================================================================
+    function resetTimer() {
+        clearInterval(timerInterval);
+        currentMs = 0;
+        stopwatchDisplay.textContent = '00:00.000';
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        saveTimeButton.disabled = true;
+        uploadButton.disabled = true;
+        playerIDInput.value = '';
+        lapsInput.value = '1';
+        statusMessage.textContent = 'Listo.';
+    }
+
+    // ============================================================================
+    // SAVE TIME (ENABLE UPLOAD) (NO CHANGES REQUIRED HERE)
+    // ============================================================================
+    function saveTime() {
+        if (currentMs > 0) {
+            uploadButton.disabled = false;
+            statusMessage.textContent = `Listo para subir el tiempo de ${playerIDInput.value}.`;
+        } else {
+            statusMessage.textContent = 'Primero inicie el cronómetro.';
+        }
+    }
+
+    // ============================================================================
+    // UPLOAD TIME - USING GET REQUEST WITH NO-CORS MODE (NO CHANGES REQUIRED HERE)
+    // ============================================================================
+    function uploadTime() {
+        const playerID = playerIDInput.value.trim();
+        const laps = parseInt(lapsInput.value);
+
+        if (!playerID) {
+            alert("Por favor, introduzca un ID de Jugador.");
+            return;
+        }
+
+        if (isNaN(laps) || laps <= 0) {
+            alert("Por favor, introduzca un número válido de vueltas.");
+            return;
+        }
+
+        if (currentMs <= 0) {
+            alert("El tiempo debe ser mayor que cero para subir.");
+            return;
+        }
+        
+        uploadButton.disabled = true;
+        statusMessage.textContent = 'SUBIENDO... por favor, espere.';
+
+        const params = new URLSearchParams({
+            PlayerID: playerID,
+            TimeMs: currentMs,
+            Laps: laps
+        });
+
+        fetch(`${WEB_APP_URL}?${params.toString()}`, {
+            method: 'GET',
+            mode: 'no-cors'
+        })
+        .then(() => {
+            statusMessage.textContent = `✓ Subida enviada para ${playerID}. ¡Revise su Hoja de Cálculo!`;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+            uploadButton.disabled = false;
+            
+            setTimeout(() => {
+                statusMessage.textContent = 'Listo.';
+                statusMessage.style.backgroundColor = '#eeeeee';
+                statusMessage.style.color = '#333';
+            }, 5000);
+        })
+        .catch(error => {
+            console.error('Upload Error:', error);
+            statusMessage.textContent = `Intento de subida completado. Revise la Hoja de Cálculo para verificar.`;
+            statusMessage.style.backgroundColor = '#fff3cd';
+            statusMessage.style.color = '#856404';
+            uploadButton.disabled = false;
+        });
+    }
+
+    // ============================================================================
+    // EVENT LISTENERS (NO CHANGES REQUIRED HERE)
+    // ============================================================================
+    startButton.addEventListener('click', startTimer);
+    stopButton.addEventListener('click', stopTimer);
+    resetButton.addEventListener('click', resetTimer);
+    saveTimeButton.addEventListener('click', saveTime);
+    uploadButton.addEventListener('click', uploadTime);
+
+    // ============================================================================
+    // INITIALIZE APP (NO CHANGES REQUIRED HERE)
+    // ============================================================================
+    resetTimer();
+    console.log('Diablos Race Tracker initialized - V12 Final Polish (Corrected)');
+});
+</script>
+
+</body>
+</html>
