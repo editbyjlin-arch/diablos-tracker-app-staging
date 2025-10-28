@@ -58,11 +58,25 @@
         .controls {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between; /* Space out the buttons evenly */
             margin: 10px 0;
         }
-        .controls button {
-            padding: 10px 15px;
+        /* Style for the button container to ensure 3 fit on one line */
+        .controls-three-btn {
+            display: flex;
+            justify-content: space-between;
+            width: 100%; /* Take up full width */
+            margin: 10px 0 0;
+        }
+        /* Style for the button container to ensure 2 fit on one line */
+        .controls-two-btn {
+            display: flex;
+            justify-content: center; /* Center the two buttons */
+            width: 100%; 
+            margin: 10px 0;
+        }
+        .controls-three-btn button, .controls-two-btn button {
+            padding: 10px 5px;
             margin: 5px;
             font-size: 1.1em;
             cursor: pointer;
@@ -72,9 +86,15 @@
             background-color: #bd2027; /* Deep Red Button Color */
             color: #ffffff; /* White Button Font Color */
             font-weight: bold;
-            flex-grow: 1;
-            min-width: 120px;
+            flex-grow: 1; /* Allow buttons to grow */
             text-transform: uppercase;
+        }
+        .controls-three-btn button {
+            max-width: 30%; /* Set max width to ensure three fit */
+        }
+        .controls-two-btn button {
+            max-width: 45%; /* Set max width for the two buttons */
+            min-width: 130px;
         }
         .controls button:disabled {
             opacity: 0.6;
@@ -136,13 +156,13 @@
             <input type="number" id="laps" value="1" min="1" required>
         </div>
         
-        <div class="controls">
+        <div class="controls-three-btn">
             <button id="start">INICIAR</button>
             <button id="stop" disabled>DETENER</button>
             <button id="reset">REINICIAR</button>
         </div>
 
-        <div class="controls" style="justify-content: center;">
+        <div class="controls-two-btn">
             <button id="saveTime" disabled>GUARDAR</button>
             <button id="upload" disabled>SUBIR</button>
         </div>
