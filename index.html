@@ -59,8 +59,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 10px 0;
-            /* FIX FOR BUTTON LAYOUT: Ensures all buttons are in one consistent row flow */
+            margin: 5px 0; /* Slightly reduced margin for spacing between rows */
         }
         .controls button {
             padding: 10px 15px;
@@ -138,11 +137,14 @@
         </div>
         
         <div class="controls">
-            <button id="start">Start</button>
-            <button id="stop" disabled>Stop</button>
-            <button id="reset">Reset</button>
-            <button id="saveTime" disabled>Guardar</button>
-            <button id="upload" disabled>Subir</button>
+            <button id="start">INICIAR</button>
+            <button id="stop" disabled>DETENER</button>
+            <button id="reset">REINICIAR</button>
+        </div>
+
+        <div class="controls">
+            <button id="saveTime" disabled>GUARDAR</button>
+            <button id="upload" disabled>SUBIR</button>
         </div>
         
         <div id="statusMessage">Listo.</div>
